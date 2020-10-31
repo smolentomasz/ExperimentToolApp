@@ -1,0 +1,24 @@
+.header-main{
+    border-bottom: 2px solid rgba(62, 102, 92, 0.1);
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center
+}
+.header-title{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left:10px;
+}
+.header-login{
+    display: flex;
+    flex-direction: row;
+    margin-right: 0;
+    align-items: center
+}
+.header-app-name{
+    margin-left:10px;
+    font-size: 1.5rem;
+}

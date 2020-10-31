@@ -1,1 +1,88 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$ExperimentToolApp-primary: mat-palette($mat-indigo);
+$ExperimentToolApp-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$ExperimentToolApp-warn: mat-palette($mat-red);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$ExperimentToolApp-theme: mat-light-theme((
+  color: (
+    primary: $ExperimentToolApp-primary,
+    accent: $ExperimentToolApp-accent,
+    warn: $ExperimentToolApp-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($ExperimentToolApp-theme);
+
 /* You can add global styles to this file, and also import other style files */
+// Small devices (to 750px)
+@media (max-width: 749.98px) {
+  html {
+    font-size: 9pt;
+  }
+}
+
+// Medium devices (tablets, 750px and up)
+@media (min-width: 750px) and (max-width: 991.98px) {
+  html {
+    font-size: 10pt;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1369.98px) {
+  html {
+    font-size: 11pt;
+  }
+}
+
+// Extra large devices (large desktops, 1370px and up)
+@media (min-width: 1370px) {
+  html {
+    font-size: 12pt;
+  }
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* Rules for sizing the icon. */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-30 { font-size: 30px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.5); }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light { color: rgba(rgb(255, 255, 255), 0.8); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }

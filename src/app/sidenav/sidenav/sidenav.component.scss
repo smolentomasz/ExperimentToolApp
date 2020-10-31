@@ -1,0 +1,28 @@
+.main-sidenav{
+    display: flex;
+    flex-direction: column;
+    justify-content: first baseline;
+    text-align: center;
+    width: 100px;
+    height: 100%;
+    background-color: #3E665c;
+}
+.analyse-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: first baseline;
+    text-align: center;
+    color:white;
+}
+.management-section{
+    color:white;
+    display: flex;
+    flex-direction: column;
+    justify-content: first baseline;
+    text-align: center;
+}
+.material-icons{
+margin: 5px;
+}
+
+

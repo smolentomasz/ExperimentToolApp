@@ -1,0 +1,20 @@
+.login-panel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  right: 0;
+}
+.login-form{
+    margin-right: 10px;
+}
+.login-section {
+  margin: 5px;
+}
+.password-section {
+  margin: 5px;
+  align-self: center;
+}
+::ng-deep.mat-form-field-ripple {
+    background-color:#3E665c !important;
+   }
