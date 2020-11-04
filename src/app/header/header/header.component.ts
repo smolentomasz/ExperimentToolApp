@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { HeaderActions } from '../+state/header.actions';
+import { HeaderFacade } from '../+state/header.facade';
 
 @Component({
   selector: 'app-header',
@@ -13,14 +16,23 @@ import { Component, OnInit } from '@angular/core';
         <span class="header-app-name">Experiment Tool</span>
       </div>
       <div class="header-login">
-        <app-login-menu></app-login-menu>
+        <app-login-menu
+          *ngIf="!(headerFacade.user$ | async)"
+          [isLoginLoading]="headerFacade.isLoginLoading$ | async"
+        >
+        </app-login-menu>
+        <div *ngIf="headerFacade.user$ | async as user" class="login-info">
+          Zalogowany użytkownik: {{ user.username }}
+        </div>
       </div>
     </div>
   `,
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  constructor() {}
+  constructor(public headerFacade: HeaderFacade, private store: Store<any>) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.dispatch(HeaderActions.headerInit());
+  }
 }

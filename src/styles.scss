@@ -72,6 +72,10 @@ body {
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.material-icons{
+  cursor: pointer;
+}
+
 
 /* Rules for sizing the icon. */
 .material-icons.md-18 { font-size: 18px; }

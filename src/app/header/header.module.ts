@@ -5,9 +5,11 @@ import { LoginMenuComponent } from './login-menu/login-menu.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { StoreModule } from '@ngrx/store';
-import { testFeatureKey, reducer } from './+state/header.reducer';
+import { headerFeatureKey, headerReducer } from './+state/header.reducer';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EffectsModule } from '@ngrx/effects';
+import { HeaderEffects } from './+state/header.effects';
 
 
 
@@ -17,7 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     MatInputModule,
     MatButtonModule,
-    StoreModule.forFeature(testFeatureKey, reducer),
+    StoreModule.forFeature(headerFeatureKey, headerReducer),
+    EffectsModule.forFeature([HeaderEffects]),
     MatIconModule,
     ReactiveFormsModule,
     FormsModule

@@ -6,17 +6,17 @@ import { Component, OnInit } from '@angular/core';
     <div class="main-sidenav">
     <div class="analyse-section">
     <span>Analyze</span>
-        <i class="material-icons md-light md-30">analytics</i>
-        <i class="material-icons md-light md-30">collections</i>
-        <i class="material-icons md-light md-30">texture</i>
+        <i class="material-icons md-light md-30" [routerLink]="['/analysis/data-analysis']">analytics</i>
+        <i class="material-icons md-light md-30" [routerLink]="['/analysis/material']">collections</i>
+        <i class="material-icons md-light md-30" [routerLink]="['/analysis/texture']">texture</i>
       </div>
       <div class="management-section">
         <span>Manage</span>
-        <i class="material-icons md-light md-30">note_add</i>
-        <i class="material-icons md-light md-30">post_add</i>
-        <i class="material-icons md-light md-30">add_to_photos</i>
-        <i class="material-icons md-light md-30">add_photo_alternate</i>
-        <i class="material-icons md-light md-30">attach_file</i>
+        <i class="material-icons md-light md-30" [routerLink]="['/manage/add-research']">note_add</i>
+        <i class="material-icons md-light md-30" [routerLink]="['/manage/add-result']">post_add</i>
+        <i class="material-icons md-light md-30" [routerLink]="['/manage/add-material']">add_to_photos</i>
+        <i class="material-icons md-light md-30" [routerLink]="['/manage/add-texture']">add_photo_alternate</i>
+        <i class="material-icons md-light md-30" [routerLink]="['/manage/add-file']">attach_file</i>
       </div>
     </div>
   `,

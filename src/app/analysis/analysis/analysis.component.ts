@@ -2,18 +2,11 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-analysis',
-  template: `
-    <p>
-      analysis works!
-    </p>
-  `,
-  styleUrls: ['./analysis.component.scss']
+  template: ` <router-outlet></router-outlet> `,
+  styleUrls: ['./analysis.component.scss'],
 })
 export class AnalysisComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
