@@ -9,7 +9,8 @@ const routes: Routes = [
   {
     path: 'analysis',
     loadChildren: () => import(`./analysis/analysis.module`).then((m) => m.AnalysisModule),
-  }
+  },
+  { path: '**', redirectTo: 'analysis' }
 ];
 
 @NgModule({
