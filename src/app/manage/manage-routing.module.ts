@@ -14,7 +14,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'manage',
+        redirectTo: 'add-research',
         pathMatch: 'full',
       },
       { path: 'add-research', component: AddResearchComponent },

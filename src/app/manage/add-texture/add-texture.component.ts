@@ -1,19 +1,76 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ManageFacade } from '../+state/manage.facade';
 
 @Component({
   selector: 'app-add-texture',
   template: `
-    <p>
-      add-texture works!
-    </p>
+    <div class="addTexture-panel">
+      <form class="addTexture-form" [formGroup]="addTextureForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Select a material</mat-label>
+          <mat-select formControlName="materialControl">
+            <mat-option
+              *ngFor="let material of manageFacade.materials$ | async"
+              [value]="material.id"
+            >
+              {{ material.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+            addTextureForm.controls.materialControl.hasError('required')
+            "
+            >Test title is required!</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field class="description-section">
+          <mat-label>Ebsd description</mat-label>
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="10"
+            formControlName="descriptionControl"
+          ></textarea>
+          <mat-error
+            *ngIf="
+              addTextureForm.controls.descriptionControl.hasError('required')
+            "
+            >Ebsd description is required!</mat-error
+          >
+        </mat-form-field>
+        <input
+          type="file"
+          #txtFileInput
+          (change)="previewImage($event)"
+          class="upload-material"
+          formControlName="resultControl"
+          accept="text/plain"
+        />
+        <mat-error
+          *ngIf="addTextureForm.controls.resultControl.hasError('required')"
+          >Ebsd photo is required!</mat-error
+        >
+        <button mat-raised-button (click)="onSubmit()">Add ebsd</button>
+      </form>
+    </div>
   `,
-  styleUrls: ['./add-texture.component.scss']
+  styleUrls: ['./add-texture.component.scss'],
 })
 export class AddTextureComponent implements OnInit {
+  private selectedFile: File = null;
+  addTextureForm = new FormGroup({
+    materialControl: new FormControl('', [Validators.required]),
+    descriptionControl: new FormControl('', [Validators.required]),
+    resultControl: new FormControl('', [Validators.required]),
+  });
+  constructor(public manageFacade: ManageFacade) {}
 
-  constructor() { }
-
-  ngOnInit(): void {
+  ngOnInit(): void {}
+  onSubmit(): void {}
+  previewImage(event): void {
+    this.selectedFile = event.target.files[0];
   }
-
 }

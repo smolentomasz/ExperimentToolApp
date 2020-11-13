@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'analysis',
+        redirectTo: 'data-analysis',
         pathMatch: 'full',
       },
       { path: 'data-analysis', component: DataAnalysisPageComponent },

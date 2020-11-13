@@ -1,15 +1,16 @@
+:host{
+    display: grid;
+    grid-template-areas: '. research .';
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 100%;    
+    align-items: flex-start;
+}
 .addResearch-panel{
+    margin-top: 20px;
+    grid-area: research;
     display: flex;
     flex-direction: column;
      padding: 15px;
      text-align: center;
      justify-content: center;
  }
- .addTensile-form{
-     display: flex;
-     flex-direction: column;
- }
- .addCompression-form{
-    display: flex;
-    flex-direction: column;
-}

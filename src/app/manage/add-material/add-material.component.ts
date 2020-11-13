@@ -54,9 +54,9 @@ export class AddMaterialComponent implements OnInit {
     additionalControl: new FormControl('', [Validators.required]),
     chemicalControl: new FormControl('', [Validators.required]),
   });
-  private seletedFile: File = null;
+  private selectedFile: File = null;
   private newMaterial: NewMaterial;
-  constructor(private store: Store<any>, private test: ManageService) {}
+  constructor(private store: Store<any>) {}
 
   ngOnInit(): void {}
 
@@ -65,8 +65,8 @@ export class AddMaterialComponent implements OnInit {
       const newMaterialFormData = new FormData();
       newMaterialFormData.append(
         'file',
-        this.seletedFile,
-        this.seletedFile.name
+        this.selectedFile,
+        this.selectedFile.name
       );
 
       this.newMaterial = {
@@ -86,10 +86,9 @@ export class AddMaterialComponent implements OnInit {
           materialForm: newMaterialFormData,
         })
       );
-      //this.test.addNewMaterial(newMaterialFormData).subscribe(x => console.log(x));
     }
   }
   previewImage(event): void {
-    this.seletedFile = event.target.files[0];
+    this.selectedFile = event.target.files[0];
   }
 }

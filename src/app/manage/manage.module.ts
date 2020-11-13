@@ -17,6 +17,8 @@ import { manageFeatureKey, manageReducer } from './+state/manage.reducer';
 import { ManageEffects } from './+state/manage.effects';
 import { ToastrModule } from 'ngx-toastr';
 import { MatSelectModule } from '@angular/material/select';
+import { AddTensileComponent } from './add-research/add-tensile/add-tensile.component';
+import { AddCompressionComponent } from './add-research/add-compression/add-compression.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { MatSelectModule } from '@angular/material/select';
     AddMaterialComponent,
     AddTextureComponent,
     AddFileComponent,
-    ManagePageComponent
+    ManagePageComponent,
+    AddTensileComponent,
+    AddCompressionComponent
   ],
   imports: [CommonModule,
   ManageRoutingModule,

@@ -16,6 +16,7 @@ const userReceivedFromLocalStorage = createAction(
   '[Header] User received from localstorage',
   props<{ user: User }>()
 );
+
 export const HeaderActions = {
   headerInit,
   loginButtonClicked,
