@@ -19,6 +19,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { MatSelectModule } from '@angular/material/select';
 import { AddTensileComponent } from './add-research/add-tensile/add-tensile.component';
 import { AddCompressionComponent } from './add-research/add-compression/add-compression.component';
+import { AddFileMaterialComponent } from './add-file/add-file-material/add-file-material.component';
+import { AddFileTestComponent } from './add-file/add-file-test/add-file-test.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { AddCompressionComponent } from './add-research/add-compression/add-comp
     AddFileComponent,
     ManagePageComponent,
     AddTensileComponent,
-    AddCompressionComponent
+    AddCompressionComponent,
+    AddFileMaterialComponent,
+    AddFileTestComponent
   ],
   imports: [CommonModule,
   ManageRoutingModule,
@@ -39,6 +44,7 @@ import { AddCompressionComponent } from './add-research/add-compression/add-comp
   MatInputModule,
   MatButtonModule,
   MatSelectModule,
+  MatTableModule,
   ToastrModule.forRoot(),
   StoreModule.forFeature(manageFeatureKey, manageReducer),
     EffectsModule.forFeature([ManageEffects]),

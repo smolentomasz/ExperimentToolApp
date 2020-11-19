@@ -1,114 +1,99 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { ManageActions } from '../+state/manage.actions';
 import { ManageFacade } from '../+state/manage.facade';
-import { ResearchType } from '../+state/manage.model';
+import {
+  CompressionTest,
+  ResearchType,
+  TensileTest,
+} from '../+state/manage.model';
 
 @Component({
   selector: 'app-add-file',
   template: `
     <div class="addFile-panel">
-      <form class="addFile-form" [formGroup]="addFileForm">
+      <form class="addFile-form">
         <mat-form-field appearance="fill">
           <mat-label>Select destination</mat-label>
-          <mat-select
-            (selectionChange)="changeOption($event)"
-            formControlName="destinationControl"
-          >
+          <mat-select (selectionChange)="changeOption($event)">
             <mat-option *ngFor="let dest of typesOfDestination" [value]="dest">
               {{ dest }}
             </mat-option>
           </mat-select>
-          <mat-error
-            *ngIf="addFileForm.controls.destinationControl.hasError('required')"
-            >Destination is required!</mat-error
-          >
         </mat-form-field>
-        <mat-form-field appearance="fill" *ngIf="isDestinationResearch">
-          <mat-label>Type of research</mat-label>
-          <mat-select formControlName="researchControl" (selectionChange)="changeTypeOfResearch($event)">
-            <mat-option [value]="ResearchType.COMPRESSION">
-              {{ ResearchType.COMPRESSION }}
-            </mat-option>
-            <mat-option [value]="ResearchType.TENSILE">
-              {{ ResearchType.TENSILE }}
-            </mat-option>
-          </mat-select>
-          <mat-error
-            *ngIf="addFileForm.controls.researchControl.hasError('required')"
-            >Type of research is required!</mat-error
-          >
-        </mat-form-field>
-        <mat-form-field appearance="fill" *ngIf="isResearchPicked">
-          <mat-label>Select research</mat-label>
-          <mat-select formControlName="researchControl"> </mat-select>
-          <mat-error
-            *ngIf="addFileForm.controls.researchControl.hasError('required')"
-            >Research name is required!</mat-error
-          >
-        </mat-form-field>
-        <mat-form-field appearance="fill" *ngIf="isMaterial">
-          <mat-label>Select a material</mat-label>
-          <mat-select formControlName="materialControl">
-            <mat-option
-              *ngFor="let material of manageFacade.materials$ | async"
-              [value]="material.id"
-            >
-              {{ material.name }}
-            </mat-option>
-          </mat-select>
-          <mat-error
-            *ngIf="addFileForm.controls.materialControl.hasError('required')"
-            >Material is required!</mat-error
-          >
-        </mat-form-field>
-        <input
-          type="file"
-          #txtFileInput
-          (change)="previewImage($event)"
-          class="upload-material"
-          formControlName="additionalControl"
-        />
-        <mat-error
-          *ngIf="addFileForm.controls.additionalControl.hasError('required')"
-          >Additional file is required!</mat-error
-        >
-        <button mat-raised-button (click)="onSubmit()">Add ebsd</button>
       </form>
+      <app-add-file-test *ngIf="isResearch"></app-add-file-test>
+      <app-add-file-material *ngIf="isMaterial"></app-add-file-material>
+      <table
+        mat-table
+        [dataSource]="manageFacade.additionalFiles$ | async"
+        class="mat-elevation-z8"
+      >
+        <ng-container matColumnDef="number">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="reference">
+          <th mat-header-cell *matHeaderCellDef>Reference</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.referenceType }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="referenceName">
+          <th mat-header-cell *matHeaderCellDef>Reference name</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.referenceTypeName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="download">
+          <th mat-header-cell *matHeaderCellDef>Download</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button (click)="onDownload(element)">Download</button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="this.displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: this.displayedColumns"></tr>
+      </table>
     </div>
   `,
   styleUrls: ['./add-file.component.scss'],
 })
 export class AddFileComponent implements OnInit {
   ResearchType = ResearchType;
-  addFileForm = new FormGroup({
-    researchControl: new FormControl('', [Validators.required]),
-    destinationControl: new FormControl('', [Validators.required]),
-    additionalControl: new FormControl('', [Validators.required]),
-    materialControl: new FormControl('', [Validators.required]),
-  });
-  private selectedFile: File = null;
+  researches$: Observable<TensileTest[] | CompressionTest[]>;
+
   typesOfDestination: string[] = ['Material', 'Research'];
-  typesOfResearch: string[] = ['Tensile', 'Compression'];
-  isDestinationResearch = false;
+  displayedColumns: string[] = [
+    'number', 'name', 'reference', 'referenceName',  'download',
+  ];
+  isResearch = false;
   isMaterial = false;
-  isResearchPicked = false;
-  constructor(public manageFacade: ManageFacade) {}
+  referenceType: string;
+  referenceTypeName: string;
+  constructor(public manageFacade: ManageFacade, private store: Store<any>) {}
 
   ngOnInit(): void {}
-  onSubmit(): void {}
+
   changeOption(event): void {
     if (event.value === 'Research') {
-      this.isDestinationResearch = true;
+      this.isResearch = true;
       this.isMaterial = false;
     } else {
-      this.isDestinationResearch = false;
+      this.isResearch = false;
       this.isMaterial = true;
     }
   }
-  changeTypeOfResearch(event): void{
-    this.isResearchPicked = true;
-  }
-  previewImage(event): void {
-    this.selectedFile = event.target.files[0];
+  onDownload(element): void {
+    console.log(element.id);
   }
 }

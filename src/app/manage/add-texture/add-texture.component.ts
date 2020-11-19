@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { ManageActions } from '../+state/manage.actions';
 import { ManageFacade } from '../+state/manage.facade';
+import { NewTexture } from '../+state/manage.model';
 
 @Component({
   selector: 'app-add-texture',
@@ -61,15 +64,38 @@ import { ManageFacade } from '../+state/manage.facade';
 })
 export class AddTextureComponent implements OnInit {
   private selectedFile: File = null;
+  private newTexture: NewTexture;
   addTextureForm = new FormGroup({
     materialControl: new FormControl('', [Validators.required]),
     descriptionControl: new FormControl('', [Validators.required]),
     resultControl: new FormControl('', [Validators.required]),
   });
-  constructor(public manageFacade: ManageFacade) {}
+  constructor(public manageFacade: ManageFacade, private store: Store<any>) {}
 
   ngOnInit(): void {}
-  onSubmit(): void {}
+  onSubmit(): void {
+    if(this.addTextureForm.valid){
+      const newTextureFormData = new FormData();
+      newTextureFormData.append(
+        'file',
+        this.selectedFile,
+        this.selectedFile.name
+      );
+
+      this.newTexture = {
+        materialId: this.addTextureForm.controls.materialControl.value,
+        textureDescription: this.addTextureForm.controls.descriptionControl.value
+      };
+
+      newTextureFormData.append('analysisDetails', JSON.stringify(this.newTexture));
+
+      this.store.dispatch(
+        ManageActions.addTextureButtonClicked({
+          textureForm: newTextureFormData,
+        })
+      );
+    }
+  }
   previewImage(event): void {
     this.selectedFile = event.target.files[0];
   }

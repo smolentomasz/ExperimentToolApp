@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import {
+  AdditionalFile,
   CompressionTest,
   Material,
   ResponseMessage,
@@ -11,7 +12,7 @@ const addMaterialButtonClicked = createAction(
   props<{ materialForm: FormData }>()
 );
 const addMaterialSuccess = createAction(
-  '[Manage] Add material succes',
+  '[Manage] Add material success',
   props<{ responseMessage: ResponseMessage }>()
 );
 const materialsReceived = createAction(
@@ -23,7 +24,7 @@ const addTensileTestButtonClicked = createAction(
   props<{ newTensileTest: TensileTest }>()
 );
 const addTensileTestSuccess = createAction(
-  '[Manage] Add tensile test succes',
+  '[Manage] Add tensile test success',
   props<{ responseMessage: ResponseMessage }>()
 );
 const tensileTestsReceived = createAction(
@@ -35,13 +36,50 @@ const addCompressionTestButtonClicked = createAction(
   props<{ newCompressionTest: CompressionTest }>()
 );
 const addCompressionTestSuccess = createAction(
-  '[Manage] Add compression test succes',
+  '[Manage] Add compression test success',
   props<{ responseMessage: ResponseMessage }>()
 );
 const compressionTestsReceived = createAction(
   '[Manage] Compression tests received',
   props<{ compressionTests: CompressionTest[] }>()
 );
+const addTensileTestResultButtonClicked = createAction(
+  '[Manage] Add tensile test result button clicked',
+  props<{ tensileResultForm: FormData }>()
+);
+const addTensileTestResultSuccess = createAction(
+  '[Manage] Add tensile test result success',
+  props<{ responseMessage: ResponseMessage }>()
+);
+const addCompressionTestResultButtonClicked = createAction(
+  '[Manage] Add compression test result button clicked',
+  props<{ compressionResultForm: FormData }>()
+);
+const addCompressionTestResultSuccess = createAction(
+  '[Manage] Add compression test result success',
+  props<{ responseMessage: ResponseMessage }>()
+);
+const addAdditionalFileButtonClicked = createAction(
+  '[Manage] Add additional file button clicked',
+  props<{ additionalFileForm: FormData }>()
+);
+const addAdditionalFileSuccess = createAction(
+  '[Manage] Add additional file success',
+  props<{ responseMessage: ResponseMessage }>()
+);
+const additionalFilesReceived = createAction(
+  '[Manage] Additional files received',
+  props<{ additionalFiles: AdditionalFile[] }>()
+);
+const addTextureButtonClicked = createAction(
+  '[Manage] Add texture button clicked',
+  props<{ textureForm: FormData }>()
+);
+const addTextureSuccess = createAction(
+  '[Manage] Add texture success',
+  props<{ responseMessage: ResponseMessage }>()
+);
+
 export const ManageActions = {
   addMaterialButtonClicked,
   addMaterialSuccess,
@@ -52,4 +90,13 @@ export const ManageActions = {
   addCompressionTestButtonClicked,
   addCompressionTestSuccess,
   compressionTestsReceived,
+  addTensileTestResultButtonClicked,
+  addTensileTestResultSuccess,
+  addCompressionTestResultButtonClicked,
+  addCompressionTestResultSuccess,
+  addAdditionalFileButtonClicked,
+  addAdditionalFileSuccess,
+  additionalFilesReceived,
+  addTextureButtonClicked,
+  addTextureSuccess
 };

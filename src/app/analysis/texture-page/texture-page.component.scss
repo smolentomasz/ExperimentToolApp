@@ -1,0 +1,49 @@
+.texture-card {
+  margin: 10px;
+  width: 200px;
+  max-height: 360px;
+  display: flex;
+  flex-direction: column;
+}
+:host {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.texture-image {
+  width: auto;
+  height: 150px;
+}
+mat-card::ng-deep.mat-card-header-text {
+  width: 100%;
+  text-align: center;
+}
+.texture-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.card-content {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.title-label {
+  font-weight: bold;
+}

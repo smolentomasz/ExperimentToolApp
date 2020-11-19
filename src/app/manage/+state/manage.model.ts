@@ -1,23 +1,23 @@
-export interface ResponseMessage{
-    responseMessage: string;
+export interface ResponseMessage {
+  responseMessage: string;
 }
 export interface NewMaterial {
   name: string;
   informations: string;
   chemicalComposition: string;
 }
-export enum ResearchType{
+export enum ResearchType {
   TENSILE = 'Tensile',
-  COMPRESSION = 'Compression'
+  COMPRESSION = 'Compression',
 }
-export interface Material{
+export interface Material {
   id: number;
   name: string;
   materialPhoto: string;
-  informations: string;
+  additionalInformations: string;
   chemicalComposition: string;
 }
-export interface TensileTest{
+export interface TensileTest {
   id: number;
   materialId: number;
   title: string;
@@ -29,7 +29,7 @@ export interface TensileTest{
   youngModuleSpeed: number;
   testSpeed: number;
 }
-export interface CompressionTest{
+export interface CompressionTest {
   id: number;
   materialId: number;
   title: string;
@@ -40,4 +40,22 @@ export interface CompressionTest{
   compressionModuleSpeed: number;
   yeldPointSpeed: number;
   testSpeed: number;
+}
+export interface NewResult {
+  testId: number;
+  attemptNumber: number;
+}
+export interface NewAdditionalFile{
+  referenceType: string;
+  referenceTypeName: string;
+}
+export interface AdditionalFile{
+  id: number;
+  name: string;
+  referenceType: string;
+  referenceTypeName: string;
+}
+export interface NewTexture{
+  materialId: number;
+  textureDescription: string;
 }

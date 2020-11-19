@@ -23,6 +23,10 @@ const selectCompressionTests = createSelector(
   selectManageState,
   (state: ManageState) => state.compressionTests
 );
+const selectAdditionalFiles = createSelector(
+  selectManageState,
+  (state: ManageState) => state.additionalFiles
+);
 const selectResearchesByResearchType = ({ type }: { type: ResearchType }) =>
   createSelector(
     selectTensileTests,
@@ -32,5 +36,6 @@ const selectResearchesByResearchType = ({ type }: { type: ResearchType }) =>
   );
 export const ManageSelectors = {
   selectMaterials,
-  selectResearchesByResearchType
+  selectResearchesByResearchType,
+  selectAdditionalFiles
 };

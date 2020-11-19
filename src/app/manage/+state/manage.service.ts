@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Material, CompressionTest, TensileTest, ResponseMessage } from './manage.model';
+import { Material, CompressionTest, TensileTest, ResponseMessage, AdditionalFile } from './manage.model';
 
 const authenticationHeader = {
   headers: new HttpHeaders({
@@ -14,13 +14,21 @@ const basicUrl = 'https://localhost:5001/tool/';
 })
 export class ManageService {
   private materialUrl: string;
-  private compressionUrl: string;
-  private tensileUrl: string;
+  private compressionTestUrl: string;
+  private tensileTestUrl: string;
+  private compressionResultUrl: string;
+  private tensileResultUrl: string;
+  private additionalFileUrl: string;
+  private textureUrl: string;
 
   constructor(private http: HttpClient) { 
     this.materialUrl = basicUrl + 'materials';
-    this.compressionUrl = basicUrl + 'compression-tests';
-    this.tensileUrl = basicUrl + 'tensile-tests';
+    this.compressionTestUrl = basicUrl + 'compression-tests';
+    this.tensileTestUrl = basicUrl + 'tensile-tests';
+    this.compressionResultUrl = basicUrl + 'compression-results';
+    this.tensileResultUrl = basicUrl + 'tensile-results';
+    this.additionalFileUrl = basicUrl + 'additional-files';
+    this.textureUrl = basicUrl + 'analyses';
   }
   addNewMaterial(newData: FormData): Observable<ResponseMessage>{
     authenticationHeader.headers = authenticationHeader.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
@@ -28,19 +36,38 @@ export class ManageService {
   }
   addNewCompressionTest(newCompressionTest: CompressionTest): Observable<ResponseMessage>{
     authenticationHeader.headers = authenticationHeader.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.post<ResponseMessage>(this.compressionUrl, newCompressionTest, authenticationHeader);
+    return this.http.post<ResponseMessage>(this.compressionTestUrl, newCompressionTest, authenticationHeader);
   }
   addNewTensileTest(newTensileTest: TensileTest): Observable<ResponseMessage>{
     authenticationHeader.headers = authenticationHeader.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
-    return this.http.post<ResponseMessage>(this.tensileUrl, newTensileTest, authenticationHeader);
+    return this.http.post<ResponseMessage>(this.tensileTestUrl, newTensileTest, authenticationHeader);
+  }
+  addNewCompressionTestResults(newData: FormData): Observable<ResponseMessage>{
+    authenticationHeader.headers = authenticationHeader.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    return this.http.post<ResponseMessage>(this.compressionResultUrl, newData, authenticationHeader);
+  }
+  addNewTensileTestResults(newData: FormData): Observable<ResponseMessage>{
+    authenticationHeader.headers = authenticationHeader.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    return this.http.post<ResponseMessage>(this.tensileResultUrl, newData, authenticationHeader);
+  }
+  addNewAdditionalFile(newData: FormData): Observable<ResponseMessage>{
+    authenticationHeader.headers = authenticationHeader.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    return this.http.post<ResponseMessage>(this.additionalFileUrl, newData, authenticationHeader);
+  }
+  addNewTexture(newData: FormData): Observable<ResponseMessage>{
+    authenticationHeader.headers = authenticationHeader.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    return this.http.post<ResponseMessage>(this.textureUrl, newData, authenticationHeader);
   }
   getAllMaterials(): Observable<Material[]>{
     return this.http.get<Material[]>(this.materialUrl);
   }
   getAllCompressionTests(): Observable<CompressionTest[]>{
-    return this.http.get<CompressionTest[]>(this.compressionUrl);
+    return this.http.get<CompressionTest[]>(this.compressionTestUrl);
   }
   getAllTensileTests(): Observable<TensileTest[]>{
-    return this.http.get<TensileTest[]>(this.tensileUrl);
+    return this.http.get<TensileTest[]>(this.tensileTestUrl);
+  }
+  getAllAdditionalFiles(): Observable<AdditionalFile[]>{
+    return this.http.get<AdditionalFile[]>(this.additionalFileUrl);
   }
 }

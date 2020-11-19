@@ -80,4 +80,81 @@ export class ManageEffects {
       ),
     { dispatch: false }
   );
+  addTensileTestResultsToDatabase = createEffect(
+    () => () =>
+      this.actions.pipe(
+        ofType(ManageActions.addTensileTestResultButtonClicked),
+        switchMap(({ tensileResultForm }) =>
+          this.manageService.addNewTensileTestResults(tensileResultForm).pipe(take(1))
+        ),
+        map((responseMessage) => ManageActions.addCompressionTestResultSuccess({responseMessage}))
+      )
+  );
+  addTensileTestResultsSuccess = createEffect(
+    () => () =>
+      this.actions.pipe(
+        ofType(ManageActions.addTensileTestResultSuccess),
+        tap(({responseMessage}) =>  this.toastr.success(responseMessage.responseMessage))
+      ),
+    { dispatch: false }
+  );
+  addCompressionTestResultsToDatabase = createEffect(
+    () => () =>
+      this.actions.pipe(
+        ofType(ManageActions.addCompressionTestResultButtonClicked),
+        switchMap(({ compressionResultForm }) =>
+          this.manageService.addNewCompressionTestResults(compressionResultForm).pipe(take(1))
+        ),
+        map((responseMessage) => ManageActions.addCompressionTestResultSuccess({responseMessage}))
+      )
+  );
+  addCompressionTestResultsSuccess = createEffect(
+    () => () =>
+      this.actions.pipe(
+        ofType(ManageActions.addCompressionTestResultSuccess),
+        tap(({responseMessage}) =>  this.toastr.success(responseMessage.responseMessage))
+      ),
+    { dispatch: false }
+  );
+  addAdditionalFileToDatabase = createEffect(
+    () => () =>
+      this.actions.pipe(
+        ofType(ManageActions.addAdditionalFileButtonClicked),
+        switchMap(({ additionalFileForm }) =>
+          this.manageService.addNewAdditionalFile(additionalFileForm).pipe(take(1))
+        ),
+        map((responseMessage) => ManageActions.addAdditionalFileSuccess({responseMessage}))
+      )
+  );
+  addAdditonalFileSuccess = createEffect(
+    () => () =>
+      this.actions.pipe(
+        ofType(ManageActions.addAdditionalFileSuccess),
+        tap(({responseMessage}) =>  this.toastr.success(responseMessage.responseMessage))
+      ),
+    { dispatch: false }
+  );
+  getAllAdditionalFiles = createEffect(() => () => this.actions.pipe(
+    ofType(HeaderActions.headerInit, ManageActions.addAdditionalFileSuccess),
+    switchMap(() => this.manageService.getAllAdditionalFiles().pipe(take(1))),
+    map(additionalFiles => ManageActions.additionalFilesReceived({additionalFiles}))
+  ));
+  addTextureToDatabase = createEffect(
+    () => () =>
+      this.actions.pipe(
+        ofType(ManageActions.addTextureButtonClicked),
+        switchMap(({ textureForm }) =>
+          this.manageService.addNewTexture(textureForm).pipe(take(1))
+        ),
+        map((responseMessage) => ManageActions.addTextureSuccess({responseMessage}))
+      )
+  );
+  addTextureSuccess = createEffect(
+    () => () =>
+      this.actions.pipe(
+        ofType(ManageActions.addTextureSuccess),
+        tap(({responseMessage}) =>  this.toastr.success(responseMessage.responseMessage))
+      ),
+    { dispatch: false }
+  );
 }
