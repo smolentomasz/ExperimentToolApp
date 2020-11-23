@@ -23,6 +23,7 @@ import { HeaderFacade } from '../+state/header.facade';
         </app-login-menu>
         <div *ngIf="headerFacade.user$ | async as user" class="login-info">
           Zalogowany użytkownik: {{ user.username }}
+          <button mat-raised-button (click)="onLogout()">Logout</button>
         </div>
       </div>
     </div>
@@ -34,5 +35,8 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(HeaderActions.headerInit());
+  }
+  onLogout(): void {
+    
   }
 }

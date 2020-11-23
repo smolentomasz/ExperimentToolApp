@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {
   AdditionalFile,
   CompressionTest,
+  DownloadFileModel,
   Material,
   ResearchType,
   TensileTest,
@@ -22,7 +23,9 @@ export class ManageFacade {
   additionalFiles$: Observable<AdditionalFile[]> = this.store.select(
     ManageSelectors.selectAdditionalFiles
   );
-
+  file$: Observable<DownloadFileModel> = this.store.select(
+    ManageSelectors.selectDownloadFile
+  );
   getResearches(
     type: ResearchType
   ): Observable<TensileTest[] | CompressionTest[]> {

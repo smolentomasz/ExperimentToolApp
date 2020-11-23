@@ -12,4 +12,12 @@ export class AnalysisFacade {
   textures$: Observable<Texture[]> = this.store.select(
     AnalysisSelectors.selectTextures
   );
+  comparisionCount$: Observable<number> = this.store.select(
+    AnalysisSelectors.selectComparisionCount
+  );
+  getAttemptsByTestId(testId: number): Observable<number[]> {
+    return this.store.select(
+      AnalysisSelectors.selectAttemptsByTestId({ testId })
+    );
+  }
 }

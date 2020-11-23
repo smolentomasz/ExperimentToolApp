@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import {
   AdditionalFile,
   CompressionTest,
+  DownloadFileModel,
   Material,
   ResponseMessage,
   TensileTest,
@@ -79,7 +80,14 @@ const addTextureSuccess = createAction(
   '[Manage] Add texture success',
   props<{ responseMessage: ResponseMessage }>()
 );
-
+const downloadFileButtonClicked = createAction(
+  '[Manage] Download file button clicked',
+  props<{ fileId: number }>()
+);
+const fileReceivedFromBackend = createAction(
+  '[Header] File received from backend',
+  props<{ file: DownloadFileModel }>()
+);
 export const ManageActions = {
   addMaterialButtonClicked,
   addMaterialSuccess,
@@ -98,5 +106,7 @@ export const ManageActions = {
   addAdditionalFileSuccess,
   additionalFilesReceived,
   addTextureButtonClicked,
-  addTextureSuccess
+  addTextureSuccess,
+  downloadFileButtonClicked,
+  fileReceivedFromBackend
 };

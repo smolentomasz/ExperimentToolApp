@@ -59,3 +59,8 @@ export interface NewTexture{
   materialId: number;
   textureDescription: string;
 }
+export interface DownloadFileModel{
+  fileContents: string;
+  contentType: string;
+  fileDownloadName: string;
+}

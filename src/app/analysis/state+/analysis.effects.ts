@@ -22,4 +22,14 @@ export class AnalysisEffects {
       map((textures) => AnalysisActions.texturesReceived({ textures }))
     )
   );
+
+  loadAttempts = createEffect(() => () =>
+    this.actions.pipe(
+      ofType(AnalysisActions.researchNameChanged),
+      switchMap(({ testId } ) =>
+        this.analysisService.getAllAttemptsForTestId(testId).pipe(map(attempts => ({testId, attempts})))
+      ),
+      map(record => AnalysisActions.attemptsRecordReceived({ record })),
+    )
+  );
 }

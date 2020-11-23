@@ -106,17 +106,17 @@ export class AddResultComponent implements OnInit {
         testId: this.addResultsForm.controls.researchNameControl.value,
       };
 
-      newResultFormData.append('resultDetails', JSON.stringify(this.newResult));
-
       const testType = this.addResultsForm.controls.researchTypeControl.value;
 
       if (testType === 'Tensile') {
+        newResultFormData.append('tensileResultDetails', JSON.stringify(this.newResult));
         this.store.dispatch(
           ManageActions.addTensileTestResultButtonClicked({
             tensileResultForm: newResultFormData,
           })
         );
       } else {
+        newResultFormData.append('compressionResultDetails', JSON.stringify(this.newResult));
         this.store.dispatch(
           ManageActions.addCompressionTestResultButtonClicked({
             compressionResultForm: newResultFormData,

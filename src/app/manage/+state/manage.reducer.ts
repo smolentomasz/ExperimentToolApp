@@ -1,6 +1,6 @@
 import { Action, createReducer, on} from '@ngrx/store';
 import { ManageActions } from './manage.actions';
-import { AdditionalFile, CompressionTest, Material, TensileTest } from './manage.model';
+import { AdditionalFile, CompressionTest, DownloadFileModel, Material, TensileTest } from './manage.model';
 
 export const manageFeatureKey = 'manage';
 
@@ -12,6 +12,8 @@ export interface ManageState {
   isCompressionTestAdding: boolean;
   isCompressionResultAdding: boolean;
   isAdditionalFileAdding: boolean;
+  isFileDownloading: boolean;
+  file: DownloadFileModel;
   materials: Material[];
   tensileTests: TensileTest[];
   compressionTests: CompressionTest[];
@@ -26,6 +28,8 @@ export const initialState: ManageState = {
   isCompressionTestAdding: false,
   isCompressionResultAdding: false,
   isAdditionalFileAdding: false,
+  isFileDownloading: false,
+  file: null,
   materials: [],
   tensileTests: [],
   compressionTests: [],
@@ -151,6 +155,21 @@ const reducer = createReducer(
       isTextureAdding: false,
     };
   }),
+  on(ManageActions.downloadFileButtonClicked, (state: ManageState) => {
+    return {
+      ...state,
+      isFileDownloading: true,
+    };
+  }),
+  on(
+    ManageActions.fileReceivedFromBackend,
+    (state: ManageState, { file }) => {
+      return {
+        ...state,
+        file,
+      };
+    }
+  ),
 );
 
 export function manageReducer(

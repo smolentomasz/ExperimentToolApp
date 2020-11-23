@@ -58,6 +58,10 @@ export class ManageService {
     authenticationHeader.headers = authenticationHeader.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
     return this.http.post<ResponseMessage>(this.textureUrl, newData, authenticationHeader);
   }
+  getFileFromBackend(fileId: number): Observable<any>{
+    authenticationHeader.headers = authenticationHeader.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    return this.http.get<any>(this.additionalFileUrl + '/id/' + fileId,  authenticationHeader);
+  }
   getAllMaterials(): Observable<Material[]>{
     return this.http.get<Material[]>(this.materialUrl);
   }

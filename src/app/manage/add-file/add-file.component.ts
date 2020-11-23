@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { ManageActions } from '../+state/manage.actions';
 import { ManageFacade } from '../+state/manage.facade';
 import {
@@ -9,6 +10,7 @@ import {
   ResearchType,
   TensileTest,
 } from '../+state/manage.model';
+import { ManageService } from '../+state/manage.service';
 
 @Component({
   selector: 'app-add-file',
@@ -68,7 +70,7 @@ import {
   `,
   styleUrls: ['./add-file.component.scss'],
 })
-export class AddFileComponent implements OnInit {
+export class AddFileComponent implements OnInit, OnDestroy {
   ResearchType = ResearchType;
   researches$: Observable<TensileTest[] | CompressionTest[]>;
 
@@ -80,9 +82,29 @@ export class AddFileComponent implements OnInit {
   isMaterial = false;
   referenceType: string;
   referenceTypeName: string;
-  constructor(public manageFacade: ManageFacade, private store: Store<any>) {}
+  downloadedFile: Blob;
+  fileName: string;
+  destroy$ = new Subject<void>();
+  constructor(public manageFacade: ManageFacade, private store: Store<any>, private serv: ManageService, private sanitizer: DomSanitizer) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.manageFacade.file$.pipe(filter(v => !!v), takeUntil(this.destroy$)).subscribe(file => {
+      this.downloadedFile = new Blob([file.fileContents], { type: 'application/octet-stream' });
+      this.fileName = file.fileDownloadName;
+
+      const anchor = document.createElement('a');
+      anchor.setAttribute('type', 'hidden');
+      anchor.href = URL.createObjectURL(this.downloadedFile);
+      anchor.download = this.fileName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+    });
+  }
+  ngOnDestroy(): void{
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   changeOption(event): void {
     if (event.value === 'Research') {
@@ -94,6 +116,11 @@ export class AddFileComponent implements OnInit {
     }
   }
   onDownload(element): void {
-    console.log(element.id);
+    this.store.dispatch(
+      ManageActions.downloadFileButtonClicked({
+        fileId: element.id,
+      })
+    );
+    
   }
 }
