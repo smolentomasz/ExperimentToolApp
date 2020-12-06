@@ -6,8 +6,10 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { keyBy } from 'lodash';
 import { AnalysisFormComponent } from '../analysis-form/analysis-form.component';
 import { AnalysisActions } from '../state+/analysis.actions';
+import { RecordRequest } from '../state+/analysis.model';
 
 interface AnalysisFormConfig {
   from: number;
@@ -17,24 +19,24 @@ interface AnalysisFormConfig {
 @Component({
   selector: 'app-analysis-form-page',
   template: `
-    <div class="header">
-      <button mat-raised-button (click)="test()">Submit</button>
-      <i
-        class="material-icons md-dark md-30"
+    <div class="container">
+      <app-analysis-form *ngFor="let form of getArray(); let i = index" [isFirst]="!!!i"></app-analysis-form>
+      <div class='icon-container'> <i
+        class="material-icons md-dark md-30 analysis-icon"
         *ngIf="comparisionCount < config.to"
         (click)="addComparision()"
         >add_circle_outline</i
       >
 
       <i
-        class="material-icons md-dark md-30"
+        class="material-icons md-dark md-30 analysis-icon"
         *ngIf="comparisionCount > config.from"
         (click)="removeComparision()"
         >remove_circle_outline</i
-      >
+      ></div>
     </div>
-    <div class="container">
-      <app-analysis-form *ngFor="let form of getArray()"></app-analysis-form>
+    <div class="footer">
+    <button mat-raised-button (click)="onSubmit()" [disabled]="!isValid()">Analyze</button>
     </div>
   `,
   styleUrls: ['./analysis-form-page.component.scss'],
@@ -61,7 +63,32 @@ export class AnalysisFormPageComponent implements OnInit {
   getArray(): any[] {
     return Array(this.comparisionCount);
   }
-  test(): void {
-    console.log(this.forms);
+  isValid(): boolean{
+    return this.forms?.toArray().every(form => form.selectDataForm.valid);
+  }
+  onSubmit(): void {
+    const newRecordRequest = new FormData();
+    const recordArray: Array<RecordRequest> = [];
+    let iterator = 1;
+    this.forms.forEach((children) => {
+      if (children.selectDataForm.valid) {
+        const request: RecordRequest = {
+          testId: children.selectDataForm.controls.researchNameControl.value,
+          attemptNumber:
+            children.selectDataForm.controls.researchAttemptControl.value,
+        };
+        recordArray.push(request);
+        if (iterator === this.forms.toArray().length) {
+          newRecordRequest.append('requestRecords', JSON.stringify(recordArray));
+          this.store.dispatch(
+            AnalysisActions.getResultsForAnalyse({
+              recordList: newRecordRequest,
+              researchType: children.selectDataForm.controls.researchTypeControl.value
+            })
+          );
+        }
+        iterator++;
+      }
+    });
   }
 }

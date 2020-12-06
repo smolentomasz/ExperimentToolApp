@@ -26,6 +26,12 @@ const reducer = createReducer(
       isLoginLoading: true,
     };
   }),
+  on(HeaderActions.loginError, (state: HeaderState) => {
+    return {
+      ...state,
+      isLoginLoading: false,
+    };
+  }),
   on(HeaderActions.userReceivedFromBackend, (state: HeaderState, {user}) => {
     return {
       ...state,
@@ -38,6 +44,13 @@ const reducer = createReducer(
       ...state,
       isLoginLoading: false,
       user
+    };
+  }),
+  on(HeaderActions.logoutButtonClicked, (state: HeaderState) => {
+    return {
+      ...state,
+      isLoginLoading: false,
+      user: undefined
     };
   })
 );

@@ -37,6 +37,6 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(HeaderActions.headerInit());
   }
   onLogout(): void {
-    
+    this.store.dispatch(HeaderActions.logoutButtonClicked());
   }
 }

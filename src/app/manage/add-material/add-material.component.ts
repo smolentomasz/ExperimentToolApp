@@ -9,6 +9,7 @@ import { ManageService } from '../+state/manage.service';
   selector: 'app-add-material',
   template: `
     <div class="addMaterial-panel">
+    <span class="title">Add new material</span>
       <form class="addMaterial-form" [formGroup]="addMaterialForm">
         <mat-form-field class="name-section">
           <mat-label>Material name</mat-label>

@@ -1,18 +1,38 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { HeaderActions } from './header.actions';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { HeaderService } from './header.service';
 import { User } from './header.model';
+import { ToastrService } from 'ngx-toastr';
+import { of } from 'rxjs';
+import { dispatch } from 'rxjs/internal/observable/pairs';
 
 @Injectable()
 export class HeaderEffects {
-  constructor(private actions: Actions, private headerService: HeaderService) {}
+  constructor(
+    private actions: Actions,
+    private headerService: HeaderService,
+    private toastr: ToastrService
+  ) {}
 
   loginUser = createEffect(() => () =>
     this.actions.pipe(
       ofType(HeaderActions.loginButtonClicked),
       switchMap(({ user }) => this.headerService.loginUser(user).pipe(take(1))),
+      map((user) => HeaderActions.userReceivedFromBackend({ user })),
+      catchError(({ error }) => {
+        this.toastr.error(error.responseMessage);
+        return of(HeaderActions.loginError());
+      })
+    )
+  );
+  getUserAfterTokenExpired = createEffect(() => () =>
+    this.actions.pipe(
+      ofType(HeaderActions.tokenExpired),
+      switchMap(({ user }) =>
+        this.headerService.refreshToken(user).pipe(take(1))
+      ),
       map((user) => HeaderActions.userReceivedFromBackend({ user }))
     )
   );
@@ -24,6 +44,16 @@ export class HeaderEffects {
           localStorage.setItem('username', user.username);
           localStorage.setItem('token', user.token);
           localStorage.setItem('refreshToken', user.refreshToken);
+        })
+      ),
+    { dispatch: false }
+  );
+  logoutUser = createEffect(
+    () => () =>
+      this.actions.pipe(
+        ofType(HeaderActions.logoutButtonClicked),
+        tap(() => {
+          localStorage.clear();
         })
       ),
     { dispatch: false }

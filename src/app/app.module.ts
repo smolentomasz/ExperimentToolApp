@@ -12,13 +12,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { HttpClientModule } from '@angular/common/http';
 
-
-
-
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -31,11 +26,33 @@ import { HttpClientModule } from '@angular/common/http';
     StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
-      name: 'ExperimentTool'
+      name: 'ExperimentTool',
+      actionSanitizer: (action: any) =>
+        action.type === '[Analysis] Results for analyze received' &&
+        action.resultsForAnalyse
+          ? {
+              type: '[Analysis] Results for analyze received',
+              data: '<<LONG_BLOB>>',
+            }
+          : action,
+      stateSanitizer: (state: any) => {
+        if (state?.analysis?.other) {
+          return {
+            ...state,
+            analysis: {
+              ...state.analysis,
+              other: {
+                ...state.analysis.other,
+                resultsForAnalyse: '<<LONG_BLOB>>',
+              },
+            },
+          };
+        }
+      },
     }),
-    EffectsModule.forRoot()
+    EffectsModule.forRoot(),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

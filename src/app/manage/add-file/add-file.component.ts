@@ -16,6 +16,7 @@ import { ManageService } from '../+state/manage.service';
   selector: 'app-add-file',
   template: `
     <div class="addFile-panel">
+    <span class="title">Add new file</span>
       <form class="addFile-form">
         <mat-form-field appearance="fill">
           <mat-label>Select destination</mat-label>

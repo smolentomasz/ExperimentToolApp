@@ -17,6 +17,14 @@ import { AnalysisEffects } from './state+/analysis.effects';
 import { AnalysisFormComponent } from './analysis-form/analysis-form.component';
 import { AnalysisFormPageComponent } from './analysis-form-page/analysis-form-page.component';
 import { analysisReducers, ANALYSIS_FEATURE_KEY } from './state+/analysis.reducers';
+import { AnalysisResultsPageComponent } from './analysis-results-page/analysis-results-page.component';
+import { AnalysisResultsComponent } from './analysis-results/analysis-results.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { AnalysisCompressionTableComponent } from './analysis-compression-table/analysis-compression-table.component';
+import { AnalysisTensileTableComponent } from './analysis-tensile-table/analysis-tensile-table.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { AnalysisChartComponent } from './analysis-chart/analysis-chart.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +34,11 @@ import { analysisReducers, ANALYSIS_FEATURE_KEY } from './state+/analysis.reduce
     DataAnalysisPageComponent,
     AnalysisFormComponent,
     AnalysisFormPageComponent,
+    AnalysisResultsPageComponent,
+    AnalysisResultsComponent,
+    AnalysisCompressionTableComponent,
+    AnalysisTensileTableComponent,
+    AnalysisChartComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +50,9 @@ import { analysisReducers, ANALYSIS_FEATURE_KEY } from './state+/analysis.reduce
     MatSelectModule,
     MatCardModule,
     MatFormFieldModule,
+    MatTableModule,
+    MatPaginatorModule,
+    NgxChartsModule,
     StoreModule.forFeature(ANALYSIS_FEATURE_KEY, analysisReducers),
     EffectsModule.forFeature([AnalysisEffects]),
   ],

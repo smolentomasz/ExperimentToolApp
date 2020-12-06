@@ -1,9 +1,11 @@
 import { Dictionary } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AttemptRecord } from './analysis.model';
-import { AnalysisState as SubordinateAnalysisState } from './analysis.reducer';
+import { OtherState as SubordinateAnalysisState } from './other.reducer';
 import { AnalysisState, ANALYSIS_FEATURE_KEY } from './analysis.reducers';
-import { attemptsSelectors } from './attempts.reducer';
+import { attemptsTensileSelectors } from './attempts-tensile.reducer';
+import { attemptsCompressionSelectors } from './attempts-compression.reducer';
+import { ResearchType } from 'src/app/manage/+state/manage.model';
 
 const selectAnalysisState = createFeatureSelector<AnalysisState>(
   ANALYSIS_FEATURE_KEY
@@ -24,22 +26,55 @@ const selectComparisionCount = createSelector(
   (state: SubordinateAnalysisState) => state.comparisionsCount
 );
 
-const selectAttemptsState = createSelector(
+const selectResultsForAnalyse = createSelector(
+ selectSubordinateAnalysisState,
+ (state: SubordinateAnalysisState) => state.resultsForAnalyse
+)
+
+const selectResearchType = createSelector(
+  selectSubordinateAnalysisState,
+  (state: SubordinateAnalysisState) => state.researchType
+);
+
+const selectAttemptsTensileState = createSelector(
   selectAnalysisState,
-  (state: AnalysisState) => state.attempts
+  (state: AnalysisState) => state.attempts_tensile
 );
-const selectAttemptsEntities = createSelector(
-  selectAttemptsState,
-  attemptsSelectors.selectEntities
+const selectAttemptsCompressionState = createSelector(
+  selectAnalysisState,
+  (state: AnalysisState) => state.attempts_compression
 );
-const selectAttemptsByTestId = ({ testId }: { testId: number }) =>
+const selectAttemptsTensileEntities = createSelector(
+  selectAttemptsTensileState,
+  attemptsTensileSelectors.selectEntities
+);
+const selectAttemptsCompressionEntities = createSelector(
+  selectAttemptsCompressionState,
+  attemptsCompressionSelectors.selectEntities
+);
+const selectAttemptsByTestId = (
+  { testId }: { testId: number },
+  { researchType }: { researchType: ResearchType }
+) =>
   createSelector(
-    selectAttemptsEntities,
-    (entities: Dictionary<AttemptRecord>) =>
-      testId && entities[testId] ? entities[testId].attempts : []
+    selectAttemptsTensileEntities,
+    selectAttemptsCompressionEntities,
+    (
+      entitiesTensile: Dictionary<AttemptRecord>,
+      entitiesCompression: Dictionary<AttemptRecord>
+    ) =>
+      researchType === 'Tensile'
+        ? testId && entitiesTensile[testId]
+          ? entitiesTensile[testId].attempts
+          : []
+        : testId && entitiesCompression[testId]
+        ? entitiesCompression[testId].attempts
+        : []
   );
 export const AnalysisSelectors = {
   selectTextures,
   selectComparisionCount,
-  selectAttemptsByTestId
+  selectAttemptsByTestId,
+  selectResearchType,
+  selectResultsForAnalyse
 };

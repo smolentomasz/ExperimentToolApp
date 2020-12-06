@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ToastrService } from 'ngx-toastr';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { HeaderActions } from 'src/app/header/+state/header.actions';
 import { ManageActions } from 'src/app/manage/+state/manage.actions';
 import { AnalysisActions } from './analysis.actions';
@@ -23,13 +23,35 @@ export class AnalysisEffects {
     )
   );
 
-  loadAttempts = createEffect(() => () =>
+  loadTensileAttempts = createEffect(() => () =>
     this.actions.pipe(
-      ofType(AnalysisActions.researchNameChanged),
-      switchMap(({ testId } ) =>
-        this.analysisService.getAllAttemptsForTestId(testId).pipe(map(attempts => ({testId, attempts})))
+      ofType(AnalysisActions.researchNameTensileChanged),
+      switchMap(({ testId }) =>
+        this.analysisService
+          .getAllAttemptsForTensileTestId(testId)
+          .pipe(map((attempts) => ({ testId, attempts })))
       ),
-      map(record => AnalysisActions.attemptsRecordReceived({ record })),
+      map((record) => AnalysisActions.attemptsTensileRecordReceived({ record }))
+    )
+  );
+  loadCompressionAttempts = createEffect(() => () =>
+    this.actions.pipe(
+      ofType(AnalysisActions.researchNameCompressionChanged),
+      switchMap(({ testId}) =>
+        this.analysisService
+          .getAllAttemptsForCompressionTestId(testId)
+          .pipe(map((attempts) => ({ testId, attempts })))
+      ),
+      map((record) => AnalysisActions.attemptsCompressionRecordReceived({ record }))
+    )
+  );
+  getRecordsForAnalyze = createEffect(() => () =>
+    this.actions.pipe(
+      ofType(AnalysisActions.getResultsForAnalyse),
+      switchMap(({ recordList, researchType }) =>
+        this.analysisService.getResultsOfAttempt(recordList, researchType).pipe(take(1))
+      ),
+      map((resultsForAnalyse) => AnalysisActions.resultsForAnalyzeReceived({resultsForAnalyse}))
     )
   );
 }

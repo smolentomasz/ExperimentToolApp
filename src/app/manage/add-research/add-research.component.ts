@@ -7,6 +7,7 @@ import { ResearchType } from '../+state/manage.model';
   selector: 'app-add-research',
   template: `
     <div class="addResearch-panel">
+    <span class="title">Add new test</span>
     <mat-form-field appearance="fill">
           <mat-label>Type of research</mat-label>
           <mat-select  (selectionChange)="changeOption($event)">

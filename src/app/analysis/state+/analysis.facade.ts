@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Texture } from './analysis.model';
+import { ResearchType } from 'src/app/manage/+state/manage.model';
+import { ResultsForAnalyse, Texture } from './analysis.model';
 import { AnalysisSelectors } from './analysis.selectors';
 
 @Injectable({
@@ -15,9 +16,15 @@ export class AnalysisFacade {
   comparisionCount$: Observable<number> = this.store.select(
     AnalysisSelectors.selectComparisionCount
   );
-  getAttemptsByTestId(testId: number): Observable<number[]> {
+  researchType$: Observable<ResearchType> = this.store.select(
+    AnalysisSelectors.selectResearchType
+  );
+  resultsForAnalyse$: Observable<ResultsForAnalyse[]> = this.store.select(
+    AnalysisSelectors.selectResultsForAnalyse
+  )
+  getAttemptsByTestId(testId: number, researchType: ResearchType): Observable<number[]> {
     return this.store.select(
-      AnalysisSelectors.selectAttemptsByTestId({ testId })
+      AnalysisSelectors.selectAttemptsByTestId({testId}, {researchType})
     );
   }
 }

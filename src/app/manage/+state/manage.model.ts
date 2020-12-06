@@ -41,9 +41,19 @@ export interface CompressionTest {
   yeldPointSpeed: number;
   testSpeed: number;
 }
-export interface NewResult {
+export interface NewTensileResult {
   testId: number;
   attemptNumber: number;
+  l0: number;
+  lu: number;
+  lc: number;
+}
+export interface NewCompressionResult {
+  testId: number;
+  attemptNumber: number;
+  d0: number;
+  h0: number;
+  s0: number;
 }
 export interface NewAdditionalFile{
   referenceType: string;

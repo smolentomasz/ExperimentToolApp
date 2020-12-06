@@ -1,0 +1,42 @@
+.analysis-model {
+  display: flex;
+  flex-direction: column;
+  margin: 50px;
+}
+.title {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.material-card {
+  margin: 10px;
+  width: auto;
+  max-height: 80px;
+  display: flex;
+  flex-direction: column;
+}
+.card-content {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex-wrap: wrap;
+}
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.title-label {
+  font-weight: bold;
+}

@@ -25,6 +25,8 @@
     "@ngrx/entity": "^10.0.1",
     "@ngrx/store": "^10.0.1",
     "@ngrx/store-devtools": "^10.0.1",
+    "@swimlane/ngx-charts": "^16.0.0",
+    "@types/lodash": "^4.14.165",
     "material-design-icons": "^3.0.1",
     "ngx-toastr": "^13.1.0",
     "rxjs": "~6.6.0",

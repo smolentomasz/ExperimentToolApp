@@ -9,6 +9,7 @@ import { NewTexture } from '../+state/manage.model';
   selector: 'app-add-texture',
   template: `
     <div class="addTexture-panel">
+    <span class="title">Add new texture</span>
       <form class="addTexture-form" [formGroup]="addTextureForm">
         <mat-form-field appearance="fill">
           <mat-label>Select a material</mat-label>
