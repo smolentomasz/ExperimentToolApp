@@ -9,7 +9,7 @@ import { NewAdditionalFile } from '../../+state/manage.model';
   selector: 'app-add-file-material',
   template: `
    <form class="addFileMaterial-form" [formGroup]="addFileMaterialForm">
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class='form-inputs'>
           <mat-label>Select a material</mat-label>
           <mat-select formControlName="materialControl">
             <mat-option
@@ -35,7 +35,8 @@ import { NewAdditionalFile } from '../../+state/manage.model';
           *ngIf="addFileMaterialForm.controls.additionalControl.hasError('required')"
           >Additional file is required!</mat-error
         >
-        <button mat-raised-button (click)="onSubmit()">Add new file</button>
+        <button mat-raised-button (click)="onSubmit()" type="button" [disabled]="!isValid()" *ngIf='!(manageFacade.selectIsAdditionalFileAdding$ | async)'>Add new file</button>
+        <mat-spinner [diameter]="35" *ngIf='(manageFacade.selectIsAdditionalFileAdding$ | async)'></mat-spinner>
 </form>
   `,
   styleUrls: ['./add-file-material.component.scss']
@@ -81,7 +82,11 @@ export class AddFileMaterialComponent implements OnInit {
           additionalFileForm: newAdditionalFileFormData,
         })
       );
+      this.addFileMaterialForm.reset();
     }
+  }
+  isValid(): boolean{
+    return this.addFileMaterialForm.valid;
   }
   previewImage(event): void {
     this.selectedFile = event.target.files[0];

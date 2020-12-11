@@ -115,7 +115,8 @@ import { CompressionTest } from '../../+state/manage.model';
           >Test speed is required!</mat-error
         >
       </mat-form-field>
-      <button mat-raised-button (click)="onSubmit()">Add research</button>
+      <button mat-raised-button (click)="onSubmit()" type="button" [disabled]="!isValid()" *ngIf='!(manageFacade.selectisCompressionTestAdding$ | async)'>Add research</button>
+      <mat-spinner [diameter]="35" *ngIf='(manageFacade.selectisCompressionTestAdding$ | async)'></mat-spinner>
     </form>
   `,
   styleUrls: ['./add-compression.component.scss'],
@@ -157,6 +158,10 @@ export class AddCompressionComponent implements OnInit {
           newCompressionTest: this.newCompressionTest
         })
       );
+      this.addCompressionForm.reset();
     }
+  }
+  isValid(): boolean{
+    return this.addCompressionForm.valid;
   }
 }

@@ -25,6 +25,9 @@ export interface TensileTestResult{
   trueStress: number;
   plasticElongation: number;
   xCorrectElongation: number;
+  l0: number;
+  lu: number;
+  lc: number;
 }
 export interface CompressionTestResult{
   compressionTest: CompressionTest;
@@ -32,6 +35,9 @@ export interface CompressionTestResult{
   relativeReduction: number;
   standardForce: number;
   xCorrectRelativeReduction: number;
+  d0: number;
+  h0: number;
+  s0: number;
 }
 export interface Series{
   name: number;

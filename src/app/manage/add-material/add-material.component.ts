@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ManageActions } from '../+state/manage.actions';
+import { ManageFacade } from '../+state/manage.facade';
 import { NewMaterial } from '../+state/manage.model';
 import { ManageService } from '../+state/manage.service';
 
@@ -43,7 +44,8 @@ import { ManageService } from '../+state/manage.service';
           (change)="previewImage($event)"
           class="upload-material"
         />
-        <button mat-raised-button (click)="onSubmit()">Add material</button>
+        <button mat-raised-button (click)="onSubmit()" type="button" [disabled]="!isValid()" *ngIf='!(manageFacade.selectisMaterialAdding$ | async)'>Add material</button>
+        <mat-spinner [diameter]="35" *ngIf='(manageFacade.selectisMaterialAdding$ | async)'></mat-spinner>
       </form>
     </div>
   `,
@@ -57,7 +59,7 @@ export class AddMaterialComponent implements OnInit {
   });
   private selectedFile: File = null;
   private newMaterial: NewMaterial;
-  constructor(private store: Store<any>) {}
+  constructor(private store: Store<any>, public manageFacade: ManageFacade) {}
 
   ngOnInit(): void {}
 
@@ -87,7 +89,11 @@ export class AddMaterialComponent implements OnInit {
           materialForm: newMaterialFormData,
         })
       );
+      this.addMaterialForm.reset();
     }
+  }
+  isValid(): boolean{
+    return this.addMaterialForm.valid;
   }
   previewImage(event): void {
     this.selectedFile = event.target.files[0];

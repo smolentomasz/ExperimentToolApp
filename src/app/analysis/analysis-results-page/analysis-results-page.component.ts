@@ -6,6 +6,7 @@ import { AnalysisFacade } from '../state+/analysis.facade';
 @Component({
   selector: 'app-analysis-results-page',
   template: `
+  <span class="title">Test summary</span>
     <div class="container">
       <app-analysis-results
         class="result-analysis"

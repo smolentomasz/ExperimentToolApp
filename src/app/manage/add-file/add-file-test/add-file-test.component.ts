@@ -63,7 +63,8 @@ import {
         *ngIf="addFileTestForm.controls.additionalControl.hasError('required')"
         >Additional file is required!</mat-error
       >
-      <button mat-raised-button (click)="onSubmit()">Add new file</button>
+      <button mat-raised-button (click)="onSubmit()" type="button" [disabled]="!isValid()" *ngIf='!(manageFacade.selectIsAdditionalFileAdding$ | async)'>Add new file</button>
+      <mat-spinner [diameter]="35" *ngIf='(manageFacade.selectIsAdditionalFileAdding$ | async)'></mat-spinner>
     </form>
   `,
   styleUrls: ['./add-file-test.component.scss'],
@@ -114,7 +115,11 @@ export class AddFileTestComponent implements OnInit {
           additionalFileForm: newAdditionalFileFormData,
         })
       );
+      this.addFileTestForm.reset();
     }
+  }
+  isValid(): boolean{
+    return this.addFileTestForm.valid;
   }
   changeOption(event): void {
     this.researches$ = this.manageFacade.getResearches(event.value);

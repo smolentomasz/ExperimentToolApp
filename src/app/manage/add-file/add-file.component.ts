@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
@@ -86,10 +87,11 @@ export class AddFileComponent implements OnInit, OnDestroy {
   downloadedFile: Blob;
   fileName: string;
   destroy$ = new Subject<void>();
-  constructor(public manageFacade: ManageFacade, private store: Store<any>, private serv: ManageService, private sanitizer: DomSanitizer) {}
+  constructor(public manageFacade: ManageFacade, private store: Store<any>, private actions: Actions) {}
 
   ngOnInit(): void {
-    this.manageFacade.file$.pipe(filter(v => !!v), takeUntil(this.destroy$)).subscribe(file => {
+    this.actions.pipe(ofType(ManageActions.fileReceivedFromBackend), 
+    map(({file}) => file), filter(v => !!v), takeUntil(this.destroy$)).subscribe(file => {
       this.downloadedFile = new Blob([file.fileContents], { type: 'application/octet-stream' });
       this.fileName = file.fileDownloadName;
 

@@ -105,7 +105,8 @@ import { TensileTest } from '../../+state/manage.model';
           >Test speed is required!</mat-error
         >
       </mat-form-field>
-      <button mat-raised-button (click)="onSubmit()">Add test</button>
+      <button mat-raised-button (click)="onSubmit()" [disabled]="!isValid()" *ngIf='!(manageFacade.selectisTensileTestAdding$ | async)'>Add test</button>
+      <mat-spinner [diameter]="35" *ngIf='(manageFacade.selectisTensileTestAdding$ | async)'></mat-spinner>
     </form>
   `,
   styleUrls: ['./add-tensile.component.scss'],
@@ -149,6 +150,11 @@ export class AddTensileComponent implements OnInit {
           newTensileTest: this.newTensileTest
         })
       );
+
+      this.addTensileForm.reset();
     }
+  }
+  isValid(): boolean{
+    return this.addTensileForm.valid;
   }
 }

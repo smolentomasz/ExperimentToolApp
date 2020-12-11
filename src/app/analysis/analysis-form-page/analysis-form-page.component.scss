@@ -26,3 +26,11 @@
 .analysis-icon{
     height: fit-content;
 }
+.confirm-button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.confirm-button p{
+  margin: 0 auto;
+}

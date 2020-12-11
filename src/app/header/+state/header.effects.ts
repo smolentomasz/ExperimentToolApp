@@ -19,21 +19,16 @@ export class HeaderEffects {
   loginUser = createEffect(() => () =>
     this.actions.pipe(
       ofType(HeaderActions.loginButtonClicked),
-      switchMap(({ user }) => this.headerService.loginUser(user).pipe(take(1))),
-      map((user) => HeaderActions.userReceivedFromBackend({ user })),
-      catchError(({ error }) => {
-        this.toastr.error(error.responseMessage);
-        return of(HeaderActions.loginError());
-      })
-    )
-  );
-  getUserAfterTokenExpired = createEffect(() => () =>
-    this.actions.pipe(
-      ofType(HeaderActions.tokenExpired),
       switchMap(({ user }) =>
-        this.headerService.refreshToken(user).pipe(take(1))
-      ),
-      map((user) => HeaderActions.userReceivedFromBackend({ user }))
+        this.headerService.loginUser(user).pipe(
+          take(1),
+          map((loggedUser) => HeaderActions.userReceivedFromBackend({ user: loggedUser })),
+          catchError(({ error }) => {
+            this.toastr.error(error.responseMessage);
+            return of(HeaderActions.loginError());
+          })
+        )
+      )
     )
   );
   setToken = createEffect(

@@ -39,7 +39,6 @@ export class HeaderService {
       'Password',
       userLogin.password
     );
-
     return this.http.post<any>(this.userLoginUrl, '', loginHttpOptions);
   }
   refreshToken(user: User): Observable<any> {

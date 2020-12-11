@@ -1,28 +1,37 @@
-:host{
-    display: grid;
-    grid-template-areas: '. material .';
-    grid-template-columns: 1fr 1fr 1fr;
-    height: 100%;    
-    align-items: flex-start;
+:host {
+  display: grid;
+  grid-template-areas: ". material .";
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 100%;
+  align-items: flex-start;
 }
-.addMaterial-panel{
+.addMaterial-panel {
+  margin-top: 20px;
+  grid-area: material;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+.addMaterial-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.upload-material {
+  margin-bottom: 15px;
+  width: 100%;
+}
+.title {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.mat-form-field {
+    width: 100% !important;
+}
+button{
     margin-top: 20px;
-    grid-area: material;
-    display: flex;
-    flex-direction: column;
-     padding: 15px;
-     text-align: center;
-     justify-content: center;
- }
-.addMaterial-form{
-    display: flex;
-    flex-direction: column;
 }
-.upload-material{
-    margin-bottom: 15px;
-}
-.title{
-    font-size: 1.4rem;
-    text-align: center;
-    margin-bottom: 20px;
+.mat-spinner{
+    margin-top: 20px;
 }

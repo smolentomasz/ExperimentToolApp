@@ -31,6 +31,40 @@ const selectDownloadFile = createSelector(
   selectManageState,
   (state: ManageState) => state.file
 );
+
+const selectIsAdditionalFileAdding = createSelector(
+  selectManageState,
+  (state: ManageState) => state.isAdditionalFileAdding
+)
+const selectisFileDownloading = createSelector(
+  selectManageState,
+  (state: ManageState) => state.isFileDownloading
+)
+const selectisCompressionResultAdding = createSelector(
+  selectManageState,
+  (state: ManageState) => state.isCompressionResultAdding
+)
+const selectisCompressionTestAdding = createSelector(
+  selectManageState,
+  (state: ManageState) => state.isCompressionTestAdding
+)
+const selectisTensileResultAdding = createSelector(
+  selectManageState,
+  (state: ManageState) => state.isTensileResultAdding
+)
+const selectisTensileTestAdding = createSelector(
+  selectManageState,
+  (state: ManageState) => state.isTensileTestAdding
+)
+const selectisTextureAdding = createSelector(
+  selectManageState,
+  (state: ManageState) => state.isTextureAdding
+)
+const selectisMaterialAdding = createSelector(
+  selectManageState,
+  (state: ManageState) => state.isMaterialAdding
+)
+
 const selectResearchesByResearchType = ({ type }: { type: ResearchType }) =>
   createSelector(
     selectTensileTests,
@@ -42,5 +76,13 @@ export const ManageSelectors = {
   selectMaterials,
   selectResearchesByResearchType,
   selectAdditionalFiles,
-  selectDownloadFile
+  selectDownloadFile,
+  selectIsAdditionalFileAdding,
+  selectisFileDownloading,
+  selectisCompressionResultAdding,
+  selectisCompressionTestAdding,
+  selectisTensileResultAdding,
+  selectisTensileTestAdding,
+  selectisTextureAdding,
+  selectisMaterialAdding
 };

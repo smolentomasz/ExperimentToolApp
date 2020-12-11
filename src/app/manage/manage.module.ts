@@ -22,6 +22,9 @@ import { AddCompressionComponent } from './add-research/add-compression/add-comp
 import { AddFileMaterialComponent } from './add-file/add-file-material/add-file-material.component';
 import { AddFileTestComponent } from './add-file/add-file-test/add-file-test.component';
 import { MatTableModule } from '@angular/material/table';
+import { AddTensileResultsComponent } from './add-result/add-tensile-results/add-tensile-results.component';
+import { AddCompressionResultsComponent } from './add-result/add-compression-results/add-compression-results.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,9 @@ import { MatTableModule } from '@angular/material/table';
     AddTensileComponent,
     AddCompressionComponent,
     AddFileMaterialComponent,
-    AddFileTestComponent
+    AddFileTestComponent,
+    AddTensileResultsComponent,
+    AddCompressionResultsComponent
   ],
   imports: [CommonModule,
   ManageRoutingModule,
@@ -45,6 +50,7 @@ import { MatTableModule } from '@angular/material/table';
   MatButtonModule,
   MatSelectModule,
   MatTableModule,
+  MatProgressSpinnerModule,
   ToastrModule.forRoot(),
   StoreModule.forFeature(manageFeatureKey, manageReducer),
     EffectsModule.forFeature([ManageEffects]),

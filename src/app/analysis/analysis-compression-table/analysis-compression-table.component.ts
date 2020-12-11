@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {
-  ResultsForAnalyse
+  CompressionTestResult,
+  ResultsForAnalyse, TensileTestResult
 } from '../state+/analysis.model';
 
 @Component({
@@ -11,10 +12,6 @@ import {
   template: `
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="this.dataSource">
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef>Id</th>
-          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-        </ng-container>
         <ng-container matColumnDef="relativeReduction">
           <th mat-header-cell *matHeaderCellDef>Relative reduction</th>
           <td mat-cell *matCellDef="let element">
@@ -58,24 +55,24 @@ import {
 export class AnalysisCompressionTableComponent
   implements OnInit, AfterViewInit {
     displayedColumns: string[] = [
-      'id',
       'plasticRelativeReduction',
       'relativeReduction',
       'standardForce',
       'xCorrectRelativeReduction',
     ];
   @Input() analyse: ResultsForAnalyse;
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<TensileTestResult | CompressionTestResult> = new MatTableDataSource();
   pageEvent: PageEvent;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    setTimeout(() => {
+      this.dataSource.data = this.analyse.testResult;
+    }, 0);
   }
   constructor() {}
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<any>(this.analyse.testResult);
-    console.log(this.analyse.testResult)
   }
 }

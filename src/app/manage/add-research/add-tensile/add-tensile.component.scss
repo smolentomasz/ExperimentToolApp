@@ -1,4 +1,18 @@
 .addTensile-form{
     display: flex;
     flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+.mat-form-field {
+    width: 100% !important;
+}
+button{
+    margin-top: 20px;
+}
+.mat-spinner{
+    margin-top: 20px;
+}
+.upload-material {
+    width: 100%;
 }

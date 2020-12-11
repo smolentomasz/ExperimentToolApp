@@ -57,7 +57,8 @@ import { NewTexture } from '../+state/manage.model';
           *ngIf="addTextureForm.controls.resultControl.hasError('required')"
           >Ebsd photo is required!</mat-error
         >
-        <button mat-raised-button (click)="onSubmit()">Add ebsd</button>
+        <button mat-raised-button (click)="onSubmit()" type="button" [disabled]="!isValid()" *ngIf='!(manageFacade.selectisTextureAdding$ | async)'>Add ebsd</button>
+        <mat-spinner [diameter]="35" *ngIf='(manageFacade.selectisTextureAdding$ | async)'></mat-spinner>
       </form>
     </div>
   `,
@@ -95,7 +96,11 @@ export class AddTextureComponent implements OnInit {
           textureForm: newTextureFormData,
         })
       );
+      this.addTextureForm.reset();
     }
+  }
+  isValid(): boolean{
+    return this.addTextureForm.valid;
   }
   previewImage(event): void {
     this.selectedFile = event.target.files[0];

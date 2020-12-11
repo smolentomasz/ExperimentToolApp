@@ -6,7 +6,6 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { keyBy } from 'lodash';
 import { AnalysisFormComponent } from '../analysis-form/analysis-form.component';
 import { AnalysisActions } from '../state+/analysis.actions';
 import { RecordRequest } from '../state+/analysis.model';
@@ -20,7 +19,7 @@ interface AnalysisFormConfig {
   selector: 'app-analysis-form-page',
   template: `
     <div class="container">
-      <app-analysis-form *ngFor="let form of getArray(); let i = index" [isFirst]="!!!i"></app-analysis-form>
+      <app-analysis-form *ngFor="let form of getArray(); let i = index" [isFirst]="!!!i" ></app-analysis-form>
       <div class='icon-container'> <i
         class="material-icons md-dark md-30 analysis-icon"
         *ngIf="comparisionCount < config.to"
@@ -36,7 +35,8 @@ interface AnalysisFormConfig {
       ></div>
     </div>
     <div class="footer">
-    <button mat-raised-button (click)="onSubmit()" [disabled]="!isValid()">Analyze</button>
+    <button mat-raised-button (click)="onSubmit()" type="button" [disabled]="!isValid()" *ngIf='!isWaiting'>Analyze</button>
+    <mat-spinner [diameter]="35" *ngIf='isWaiting'></mat-spinner>
     </div>
   `,
   styleUrls: ['./analysis-form-page.component.scss'],
@@ -45,9 +45,10 @@ export class AnalysisFormPageComponent implements OnInit {
   @ViewChildren(AnalysisFormComponent) forms: QueryList<AnalysisFormComponent>;
   @Input() comparisionCount: number;
 
+  isWaiting = false;
   config: AnalysisFormConfig = {
     from: 1,
-    to: 3,
+    to: 2,
   };
 
   constructor(private store: Store<any>) {}
@@ -86,6 +87,7 @@ export class AnalysisFormPageComponent implements OnInit {
               researchType: children.selectDataForm.controls.researchTypeControl.value
             })
           );
+          this.isWaiting = true;
         }
         iterator++;
       }

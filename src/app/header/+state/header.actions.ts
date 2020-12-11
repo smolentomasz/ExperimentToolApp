@@ -7,10 +7,7 @@ const loginButtonClicked = createAction(
   props<{ user: UserLogin }>()
 );
 const loginError = createAction('[Header] Login button error');
-const tokenExpired = createAction(
-  '[Header] Token expired',
-  props<{ user: User }>()
-);
+
 const userReceivedFromBackend = createAction(
   '[Header] User received from backend',
   props<{ user: User }>()
@@ -27,6 +24,5 @@ export const HeaderActions = {
   loginError,
   userReceivedFromBackend,
   userReceivedFromLocalStorage,
-  logoutButtonClicked,
-  tokenExpired,
+  logoutButtonClicked
 };

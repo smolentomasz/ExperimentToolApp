@@ -26,6 +26,30 @@ export class ManageFacade {
   file$: Observable<DownloadFileModel> = this.store.select(
     ManageSelectors.selectDownloadFile
   );
+  selectIsAdditionalFileAdding$: Observable<boolean> = this.store.select(
+    ManageSelectors.selectIsAdditionalFileAdding
+  );
+  selectisFileDownloading$: Observable<boolean> = this.store.select(
+    ManageSelectors.selectisFileDownloading
+  );
+  selectisCompressionResultAdding$: Observable<boolean> = this.store.select(
+    ManageSelectors.selectisCompressionResultAdding
+  );
+  selectisCompressionTestAdding$: Observable<boolean> = this.store.select(
+    ManageSelectors.selectisCompressionTestAdding
+  );
+  selectisTensileResultAdding$: Observable<boolean> = this.store.select(
+    ManageSelectors.selectisTensileResultAdding
+  );
+  selectisTensileTestAdding$: Observable<boolean> = this.store.select(
+    ManageSelectors.selectisTensileTestAdding
+  );
+  selectisTextureAdding$: Observable<boolean> = this.store.select(
+    ManageSelectors.selectisTextureAdding
+  );
+  selectisMaterialAdding$: Observable<boolean> = this.store.select(
+    ManageSelectors.selectisMaterialAdding
+  );
   getResearches(
     type: ResearchType
   ): Observable<TensileTest[] | CompressionTest[]> {

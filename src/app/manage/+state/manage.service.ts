@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { Material, CompressionTest, TensileTest, ResponseMessage, AdditionalFile } from './manage.model';
 
@@ -20,6 +21,7 @@ export class ManageService {
   private tensileResultUrl: string;
   private additionalFileUrl: string;
   private textureUrl: string;
+  private helper: JwtHelperService;
 
   constructor(private http: HttpClient) { 
     this.materialUrl = basicUrl + 'materials';
@@ -73,5 +75,9 @@ export class ManageService {
   }
   getAllAdditionalFiles(): Observable<AdditionalFile[]>{
     return this.http.get<AdditionalFile[]>(this.additionalFileUrl);
+  }
+  isAuthorized(): boolean{
+    const token = localStorage.getItem('token');
+    return !this.helper.isTokenExpired(token);
   }
 }

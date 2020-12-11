@@ -25,6 +25,9 @@ import { AnalysisCompressionTableComponent } from './analysis-compression-table/
 import { AnalysisTensileTableComponent } from './analysis-tensile-table/analysis-tensile-table.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AnalysisChartComponent } from './analysis-chart/analysis-chart.component';
+import { TensileChartComponent } from './analysis-chart/tensile-chart/tensile-chart.component';
+import { CompressionChartComponent } from './analysis-chart/compression-chart/compression-chart.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,9 @@ import { AnalysisChartComponent } from './analysis-chart/analysis-chart.componen
     AnalysisResultsComponent,
     AnalysisCompressionTableComponent,
     AnalysisTensileTableComponent,
-    AnalysisChartComponent
+    AnalysisChartComponent,
+    TensileChartComponent,
+    CompressionChartComponent
   ],
   imports: [
     CommonModule,
@@ -53,6 +58,7 @@ import { AnalysisChartComponent } from './analysis-chart/analysis-chart.componen
     MatTableModule,
     MatPaginatorModule,
     NgxChartsModule,
+    MatProgressSpinnerModule,
     StoreModule.forFeature(ANALYSIS_FEATURE_KEY, analysisReducers),
     EffectsModule.forFeature([AnalysisEffects]),
   ],
