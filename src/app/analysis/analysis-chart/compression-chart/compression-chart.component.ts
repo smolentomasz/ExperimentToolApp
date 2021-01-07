@@ -49,7 +49,7 @@ export class CompressionChartComponent implements OnInit {
       });
     });
     this.multi.push({
-      name: 'Attempt: ' + this.analyse.attemptNumber,
+      name: 'Att.: ' + this.analyse.attemptNumber,
       series: this.chartRecords
     });
   }

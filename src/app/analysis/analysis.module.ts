@@ -28,6 +28,7 @@ import { AnalysisChartComponent } from './analysis-chart/analysis-chart.componen
 import { TensileChartComponent } from './analysis-chart/tensile-chart/tensile-chart.component';
 import { CompressionChartComponent } from './analysis-chart/compression-chart/compression-chart.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SummaryChartComponent } from './analysis-chart/summary-chart/summary-chart.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AnalysisTensileTableComponent,
     AnalysisChartComponent,
     TensileChartComponent,
-    CompressionChartComponent
+    CompressionChartComponent,
+    SummaryChartComponent
   ],
   imports: [
     CommonModule,

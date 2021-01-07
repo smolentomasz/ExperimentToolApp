@@ -1,9 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
-import { Material, CompressionTest, TensileTest, ResponseMessage, AdditionalFile } from './manage.model';
-
+import { Material, CompressionTest, TensileTest, ResponseMessage, AdditionalFile, DecodedToken } from './manage.model';
+import jwt_decode from "jwt-decode";
 const authenticationHeader = {
   headers: new HttpHeaders({
     authorization: ''
@@ -21,7 +20,7 @@ export class ManageService {
   private tensileResultUrl: string;
   private additionalFileUrl: string;
   private textureUrl: string;
-  private helper: JwtHelperService;
+
 
   constructor(private http: HttpClient) { 
     this.materialUrl = basicUrl + 'materials';
@@ -78,6 +77,18 @@ export class ManageService {
   }
   isAuthorized(): boolean{
     const token = localStorage.getItem('token');
-    return !this.helper.isTokenExpired(token);
+    const decodedToken: DecodedToken = jwt_decode(token);
+   
+    const date = new Date(0);
+    date.setUTCSeconds(decodedToken.exp);
+    
+    const difference = date.getTime() - new Date().getTime();
+
+    if(difference <= 0){
+      return false;
+    }
+    else{
+      return true;
+    }
   }
 }

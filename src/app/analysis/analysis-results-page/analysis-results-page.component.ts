@@ -7,10 +7,11 @@ import { AnalysisFacade } from '../state+/analysis.facade';
   selector: 'app-analysis-results-page',
   template: `
   <span class="title">Test summary</span>
+  <app-summary-chart *ngIf="(analysisFacade.comparisionCount$ | async) === 2" [testType]="(analysisFacade.researchType$ | async)" class='summary-chart'></app-summary-chart>
     <div class="container">
       <app-analysis-results
         class="result-analysis"
-        *ngFor="let analyse of analyisFacade.resultsForAnalyse$ | async" [analyse]='analyse'
+        *ngFor="let analyse of analysisFacade.resultsForAnalyse$ | async" [analyse]='analyse'
       ></app-analysis-results>
     </div>
     <div class="bottom-panel">
@@ -21,7 +22,7 @@ import { AnalysisFacade } from '../state+/analysis.facade';
 })
 export class AnalysisResultsPageComponent implements OnInit {
   constructor(
-    public analyisFacade: AnalysisFacade,
+    public analysisFacade: AnalysisFacade,
     private store: Store<any>
   ) {}
 

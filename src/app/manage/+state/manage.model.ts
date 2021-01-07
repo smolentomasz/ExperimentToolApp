@@ -74,3 +74,8 @@ export interface DownloadFileModel{
   contentType: string;
   fileDownloadName: string;
 }
+export interface DecodedToken{
+  exp: number;
+  iat: number;
+  nbf: number;
+}

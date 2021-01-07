@@ -17,7 +17,7 @@ import { ManageService } from '../+state/manage.service';
   selector: 'app-add-file',
   template: `
     <div class="addFile-panel">
-    <span class="title">Add new file</span>
+      <span class="title">Add new file</span>
       <form class="addFile-form">
         <mat-form-field appearance="fill">
           <mat-label>Select destination</mat-label>
@@ -35,14 +35,9 @@ import { ManageService } from '../+state/manage.service';
         [dataSource]="manageFacade.additionalFiles$ | async"
         class="mat-elevation-z8"
       >
-        <ng-container matColumnDef="number">
-          <th mat-header-cell *matHeaderCellDef>No.</th>
-          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="name">
+        <ng-container matColumnDef="name" >
           <th mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          <td mat-cell *matCellDef="let element" class='wide-container'>{{ element.name }}</td>
         </ng-container>
 
         <ng-container matColumnDef="reference">
@@ -54,14 +49,16 @@ import { ManageService } from '../+state/manage.service';
 
         <ng-container matColumnDef="referenceName">
           <th mat-header-cell *matHeaderCellDef>Reference name</th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let element" class='wide-container'>
             {{ element.referenceTypeName }}
           </td>
         </ng-container>
         <ng-container matColumnDef="download">
           <th mat-header-cell *matHeaderCellDef>Download</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-raised-button (click)="onDownload(element)">Download</button>
+            <button mat-raised-button (click)="onDownload(element)">
+              Download
+            </button>
           </td>
         </ng-container>
 
@@ -78,7 +75,10 @@ export class AddFileComponent implements OnInit, OnDestroy {
 
   typesOfDestination: string[] = ['Material', 'Research'];
   displayedColumns: string[] = [
-    'number', 'name', 'reference', 'referenceName',  'download',
+    'name',
+    'reference',
+    'referenceName',
+    'download',
   ];
   isResearch = false;
   isMaterial = false;
@@ -87,24 +87,36 @@ export class AddFileComponent implements OnInit, OnDestroy {
   downloadedFile: Blob;
   fileName: string;
   destroy$ = new Subject<void>();
-  constructor(public manageFacade: ManageFacade, private store: Store<any>, private actions: Actions) {}
+  constructor(
+    public manageFacade: ManageFacade,
+    private store: Store<any>,
+    private actions: Actions
+  ) {}
 
   ngOnInit(): void {
-    this.actions.pipe(ofType(ManageActions.fileReceivedFromBackend), 
-    map(({file}) => file), filter(v => !!v), takeUntil(this.destroy$)).subscribe(file => {
-      this.downloadedFile = new Blob([file.fileContents], { type: 'application/octet-stream' });
-      this.fileName = file.fileDownloadName;
+    this.actions
+      .pipe(
+        ofType(ManageActions.fileReceivedFromBackend),
+        map(({ file }) => file),
+        filter((v) => !!v),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((file) => {
+        this.downloadedFile = new Blob([file.fileContents], {
+          type: 'application/octet-stream',
+        });
+        this.fileName = file.fileDownloadName;
 
-      const anchor = document.createElement('a');
-      anchor.setAttribute('type', 'hidden');
-      anchor.href = URL.createObjectURL(this.downloadedFile);
-      anchor.download = this.fileName;
-      document.body.appendChild(anchor);
-      anchor.click();
-      anchor.remove();
-    });
+        const anchor = document.createElement('a');
+        anchor.setAttribute('type', 'hidden');
+        anchor.href = URL.createObjectURL(this.downloadedFile);
+        anchor.download = this.fileName;
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+      });
   }
-  ngOnDestroy(): void{
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -124,6 +136,5 @@ export class AddFileComponent implements OnInit, OnDestroy {
         fileId: element.id,
       })
     );
-    
   }
 }

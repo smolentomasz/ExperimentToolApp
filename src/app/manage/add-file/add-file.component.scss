@@ -26,8 +26,16 @@
 table th {
     text-align: center;
 }
+table td{
+    padding:20px;
+}
 .title{
     font-size: 1.4rem;
     text-align: center;
     margin-bottom: 20px;
+}
+.wide-container{
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 150px;
 }
